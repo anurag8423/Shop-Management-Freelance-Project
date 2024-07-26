@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Product List
+{% endblock title %}
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css\itemList.css' %}" />
+{% endblock style %}
+{% block body %}
+  <div class="container" style="margin-top: 7em;">
+    <h3 class="text-center bill-head">List of products in the shop</h3>
+
+    <div>
+      <table class="table table-class table-striped table-responsive">
+        <thead>
+          <tr>
+            <th scope="col">Sr. No.</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Available Stock</th>
+            <th scope="col">Cost Price</th>
+            <th scope="col">Selling Price</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for product in products %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ product.product_name }}</td>
+              <td>{{ product.stock_quantity }} {{ product.measuring_unit }}</td>
+              <td>{{ product.cost_price }}</td>
+              <td>{{ product.selling_price }}</td>
+              <td>
+                <a class="btn btn-primary" href="/itemEdit/{{ product.id }}">Edit</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

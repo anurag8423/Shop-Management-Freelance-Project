@@ -1,0 +1,28 @@
+
+.bill-head{
+    font-style: 'Inter';
+}
+.submit-btn{
+    margin-top: 2.5em;
+}
+.main-cont{
+    margin-top: 5em;
+    width:max-width;
+    height:auto;
+    background-color: #a6aaad;
+    border-radius: 2em;
+    padding: 0 0.5em 0 0.5em;
+}
+.pay-div{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1em;
+}
+.shop-name{
+    font-style: 'Inter';
+}
+.table-class{
+    border-style: solid;
+    border-color: rgb(201, 196, 196);
+    border-width:0.001em;
+}

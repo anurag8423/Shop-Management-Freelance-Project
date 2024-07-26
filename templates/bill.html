@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+
+    {% block style %}<link rel="stylesheet" href="{% static 'css\bill.css' %}">{% endblock style %}
+    {% block title %}Bill {% endblock title %}
+
+    {% block body %}
+      {% if alert %}
+        <div class="alert alert-info alert-dismissible fade show mx-5 d-flex flex-row justify-content-between" style="width:90vw; margin-top: 5em;" role="alert">
+            <div>{{message}}</div>
+            <div>
+            <button type="button"  style="border:none;background: transparent;" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+          </div>
+        {% endif %}
+
+        {% if not bill.paid %}
+      <div class="container" style="margin-top: 7em;">
+        <h3 class="text-center bill-head">Add products to the bill</h3>
+        <form class="d-flex flex-row justify-content-evenly" action="/calBill/{{bill.id}}/" method="get">
+             {% csrf_token %}
+            <div class="form-group my-3" >
+                <label for="product_type">Select the product type to search for the product</label>
+                <select class="form-control" id="product_type" name="product_type">
+                  <option disabled selected>Select the product type</option>
+                  <option value="all" >All</option>
+                  {% for type in types %}
+                  <option value="{{type.product_type}}">{{type.product_type}}</option>
+                  {% endfor %}
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary" style="margin-top:2.3em;">Search</button>
+            </div>
+        </form>
+      </div> 
+      {% if searched %}
+      <div class="container mt-3">
+        <h3 class="text-center bill-head">List of {{type}} products in the shop</h3>
+  
+        <div>
+          <table class="table table-class table-striped table-responsive">
+            <thead>
+              <tr>
+                <th scope="col">Product ID.</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Available Stock</th>
+                <th scope="col">Selling Price</th>
+                <th scope="col">Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for product in products %}
+                <tr>
+                  <th scope="row" class="pt-4">{{ product.id }}</th>
+                  <td class="pt-4">{{ product.product_name }}</td>
+                  <td class="pt-4">{{ product.stock_quantity }} {{product.measuring_unit}}</td>
+                  <td class="pt-4">{{ product.selling_price }}</td>
+                  <td >
+                    <form class="d-flex flex-row " action="/calBill/{{bill.id}}/" method="post">
+                        {% csrf_token %}
+                        <div class="form-group my-3">               
+                           <input type="number" id="quantity" class="form-control my-0" step="0.01" name="quantity" placeholder="Enter product quantity" required>
+                       </div>
+                       <div>
+                        <input type="text" id="productid" style="display:none;" value="{{product.id}}" name="productid" required>
+                       </div>
+                       <div>
+                        <input type="text" id="type" style="display:none;" value="{{type}}" name="type" required>
+                       </div>
+                       <div><button type="submit" class="btn btn-primary ms-3 mt-3" >Add</button></div>
+                    </form>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% endif %}
+      {% endif %}
+      <div class="container mt-5 pt-5 mb-4">
+        <h3 class="text-center bill-head ">Bill Invoice</h3>
+        <div class="status">Customer Name: <span><strong>{{bill.customer_name}}</strong></span></div>
+        <div class="status">Billing Date: <span><strong>{{bill.billing_date}}</strong></span></div>
+        <div class="status">Total Bill Amount: <span><strong>{{bill.bill_amount}}</strong></span></div>
+        <div class="status">Bill Status: <span>{% if bill.paid %}<strong style="color:green;">Paid</strong>{% else %}<strong style="color:rgb(146, 143, 143);">Unpaid</strong>{% endif %}</span></div>
+        <div>
+        <h4 class="text-center bill-head">Billed Products</h4>
+          <table class="table table-class table-striped table-responsive">
+            <thead>
+              <tr>
+                <th scope="col">Sr. No.</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Product Price</th>
+                <th scope="col">Net Amount</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for billItem in billItems %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>{{ billItem.product.product_name }}</td>
+                  <td>{{ billItem.quantity }} {{product.product.measuring_unit}}</td>
+                  <td>{{ billItem.product.selling_price }}</td>
+                  <td>₹{{ billItem.net_amount }}</td>
+                  <td><form action="/calBill/{{bill.id}}/" method="post">
+                    {% csrf_token %}
+                    <div>
+                      <input type="text" id="itemid" style="display:none;" value="{{billItem.id}}" name="itemid" required>
+                     </div>
+                     <div>
+                      <input type="text" id="type" style="display:none;" value="{{type}}" name="type" required>
+                     </div>
+                    <div><button type="submit" class="btn btn-warning mx-5" {% if bill.paid %} disabled {% endif %}>Remove</button></div>
+                    </form></td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="container d-flex flex-row justify-content-center mb-5">
+        <div>
+            <form action="/calBill/{{bill.id}}/" method="post">
+            {% csrf_token %}
+            <div><button type="submit" class="btn btn-success mx-5" {% if bill.paid %}disabled{% endif %}>Confirm payment</button></div>
+            </form>
+        </div>
+        <div><a class="btn btn-info mx-5"  {% if billItems|length == 0 %}style="opacity:0.6;"{% else %}href="/billReceipt/{{bill.id}}"{% endif %}>Get Receipt</a></div>
+      </div>
+      {% endblock body %}
+    

@@ -1,0 +1,22 @@
+
+.main-cont{
+    margin-top: 5em;
+    width:max-width;
+    height:auto;
+    background-color: #f8f9fa;
+    border-radius: 2em;
+    padding: 0 0.5em 0 0.5em;
+}
+.pay-div{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1em;
+}
+.table-class{
+    border-style: solid;
+    border-color: rgb(201, 196, 196);
+    border-width:0.001em;
+}
+.filter-btn{
+    margin-top: 2.3em;
+}
