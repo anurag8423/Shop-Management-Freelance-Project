@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Billing
+{% endblock title %}
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css\billing.css' %}" />
+{% endblock style %}
+
+{% block body %}
+  {% if creation %}
+    <div class="alert alert-success alert-dismissible fade show mx-5 d-flex flex-row justify-content-between" style="width:90vw;margin-top: 6em;" role="alert">
+      <div>A new bill is created succesfully!</div>
+      <div>
+        <button type="button" style="border:none;background: transparent;" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+    </div>
+  {% endif %}
+  <div class="container" style="margin-top: 7em;">
+    <h3 class="text-center bill-head">Create another bill</h3>
+    <form class="d-flex flex-row justify-content-evenly" action="/" method="post">
+      {% csrf_token %}
+      <div class="form-group my-3">
+        <label for="customer_name">Enter the customer name</label>
+        <input type="text" id="customer_name" class="form-control" name="customer_name" required />
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary submit-btn">Create Bill</button>
+      </div>
+    </form>
+  </div>
+  <div class="container" style="margin-top: 7em;background-color: #c7cbce;padding:2em;border-radius: 2em;">
+    <h3 class="text-center bill-head">Recent Bills</h3>
+
+    <div>
+      <table class="table table-class table-striped table-responsive">
+        <thead>
+          <tr>
+            <th scope="col">Sr. No.</th>
+            <th scope="col">Customer Name</th>
+            <th scope="col">Date</th>
+            <th scope="col">Amt</th>
+            <th scope="col">Paid</th>
+            <th scope="col">Invoice</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for bill in bills %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ bill.customer_name }}</td>
+              <td>{{ bill.billing_date }}</td>
+              <td>{{ bill.bill_amount }}</td>
+              <td>{{ bill.paid }}</td>
+              <td>
+                <a class="btn btn-primary" href="calBill/{{ bill.id }}/">Calculate</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <h6 class="text-center" style="opacity: 0.5;">Admin panel credentials: username:- admin , password:- admin</h6>
+{% endblock body %}

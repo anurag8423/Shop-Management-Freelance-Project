@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Add Product
+{% endblock title %}
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css\itemAdd.css' %}" />
+{% endblock style %}
+
+{% block body %}
+  <div>
+    {% if information %}
+      <div class="alert alert-{{ success }} alert-dismissible fade show mx-5 d-flex flex-row justify-content-between" style="width:90vw;margin-top: 6em;" role="alert">
+        <div>{{ message }}</div>
+        <div>
+          <button type="button" style="border:none;background: transparent;" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+      </div>
+    {% endif %}
+    <div class="container px-5" style="margin-top: 7em;">
+      <h3 class="text-center form-heading">Add a new product</h3>
+      <form action="/itemAdd/" method="post">
+        {% csrf_token %}
+        <div class="form-group my-3">
+          <label for="product_name">Enter the product name</label>
+          <input type="text" id="product_name" class="form-control" name="product_name" required />
+        </div>
+        <div class="form-group my-3">
+          <label for="product_type">Select the product type(Can add other product types from Admin panel)</label>
+          <select class="form-control" id="product_type" name="product_type">
+            <option disabled selected>Select the product type</option>
+            {% for type in types %}
+            <option value="{{type.product_type}}">{{type.product_type}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group my-3">
+          <label for="measuring_unit">Select the measuring unit</label>
+          <select class="form-control" id="measuring_unit" name="measuring_unit">
+            <option disabled selected>Select the measuring_unit</option>
+            <option value="Kg">Kilogram</option>
+            <option value="Gm">Gram</option>
+            <option value="Ltr">Litres</option>
+            <option value="packets">Pieces or packet</option>
+          </select>
+        </div>
+        <div class="form-group my-3">
+          <label for="stock_quantity">Enter the delivered stock</label>
+          <input type="number" id="stock_quantity" class="form-control" step="0.01" name="stock_quantity" required />
+        </div>
+        <div class="form-group my-3">
+          <label for="cost_price">Enter the cost price</label>
+          <input type="number" id="cost_price" class="form-control" step="0.01" name="cost_price" required />
+        </div>
+        <div class="form-group my-3">
+          <label for="selling_price">Enter the selling price</label>
+          <input type="number" id="selling_price" class="form-control" step="0.01" name="selling_price" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+{% endblock body %}

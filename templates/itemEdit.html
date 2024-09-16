@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Edit Product{% endblock title %}
+{% block style %}<link rel="stylesheet" href="{% static 'css\itemEdit.css' %}">{% endblock style %}
+  
+{% block body %}
+      <div>
+        {% if information %}
+        <div class="alert alert-{{success}} alert-dismissible fade show mx-5 d-flex flex-row justify-content-between" style="width:90vw;margin-top: 6em;" role="alert">
+            <div>{{message}}</div>
+            <div>
+            <button type="button"  style="border:none;background: transparent;" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+          </div>
+        {% endif %}
+        <div class="container  px-5" style="margin-top: 7em;">
+            <h3 class="text-center form-heading">Current product details</h3>
+        <form action="/itemEdit/{{product.id}}/" method="post">
+            {% csrf_token %}
+            <div class="form-group my-3">
+                <label for="product_name">Enter the product name</label>
+                <input type="text" id="product_name" value="{{product.product_name}}" class="form-control" name="product_name" required>
+             </div>
+             <div class="form-group my-3">
+                <label for="product_type">Select the product type</label>
+                <select class="form-control" id="product_type" name="product_type">
+                  {% for type in types %}
+                  <option {% if product.product_type == type.product_type %}selected{% endif %} value="{{type.product_type}}" >{{type.product_type}}</option>
+                  {% endfor %}
+                </select>
+            </div>
+            <div class="form-group my-3">
+                <label for="measuring_unit">Select the measuring unit</label>
+                <select class="form-control" id="measuring_unit" name="measuring_unit">
+                    <option {% if product.measuring_unit == 'Kg' %}selected{% endif %} value="Kg" >Kilogram</option>
+                    <option {% if product.measuring_unit == 'Gm' %}selected{% endif %} value="Gm" >Gram</option>
+                    <option {% if product.measuring_unit == 'Ltr' %}selected{% endif %} value="Ltr" >Litres</option>
+                    <option {% if product.measuring_unit == 'packets' %}selected{% endif %} value="packets" >Pieces or packet</option>
+                  </select>
+             </div>
+            <div class="form-group my-3">               
+                 <label for="stock_quantity">Enter the delivered stock</label>
+                <input type="number" id="stock_quantity" value="{{product.stock_quantity}}" step="0.01" class="form-control" name="stock_quantity" required>
+            </div>
+            <div class="form-group my-3">
+                <label for="cost_price">Enter the cost price</label>
+                <input type="number" id="cost_price" value="{{product.cost_price}}" step="0.01" class="form-control" name="cost_price" required>
+            </div>
+            <div class="form-group my-3">
+                <label for="selling_price">Enter the selling price</label>
+                <input type="number" id="selling_price" value="{{product.selling_price}}" step="0.01" class="form-control" name="selling_price" required>
+            </div>
+            <button type="submit" class="btn btn-info">Save Changes</button>
+        </form>
+        </div>
+      </div>
+     {% endblock body %}
