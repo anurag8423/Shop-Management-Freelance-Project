@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'shopmanagement.wsgi.application'
 #     }
 # }
 DATABASES = {
-    'default': dj_database_url.parse("postgresql://shopmanagement_django_render_user:uS7VBZBpAQ8662FMwjx6ZwPG7FGQVQnr@dpg-crk0dh88fa8c73fo0sug-a.oregon-postgres.render.com/shopmanagement_django_render")
+    'default': dj_database_url.parse("postgresql://deploymentdatabase_user:558Gmg1I3Sm2EuV9aFwMpzIMUoY1Xs5N@dpg-cu2g3ad6l47c73c2h7a0-a.oregon-postgres.render.com/deploymentdatabase")
 }
 # ["default"]=dj_database_url.parse("postgresql://shopmanagement_django_render_user:uS7VBZBpAQ8662FMwjx6ZwPG7FGQVQnr@dpg-crk0dh88fa8c73fo0sug-a.oregon-postgres.render.com/shopmanagement_django_render")
 
