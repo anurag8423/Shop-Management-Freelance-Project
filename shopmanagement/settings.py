@@ -36,9 +36,9 @@ SECRET_KEY = env("SECRET_KEY", default="your-default-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1','shop-management.up.railway.app']
+ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = ["https://shop-management.up.railway.app/"]
+CSRF_TRUSTED_ORIGINS = ["https://shop-management.up.railway.app/","https://shopmanagement-xxnp.onrender.com/"]
 # Application definition
 
 INSTALLED_APPS = [
@@ -92,15 +92,15 @@ WSGI_APPLICATION = 'shopmanagement.wsgi.application'
 #         "default": dj_database_url.config(default=env('DATABASE_URL'), conn_max_age=600)
 #      }
 
+# print(env("DATABASE_URL"))
 # if Environment == 'production':
 #     # DATABASES['default']=dj_database_url.parse(env('DATABASE_URL'), conn_max_age=600)
 #     DATABASES = {
 #         "default": dj_database_url.config(default=env('DATABASE_URL'), conn_max_age=600)
 #      }
 DATABASES = {
-    'default': dj_database_url.parse("postgresql://postgres:gZqzRxljjAXTBjPcyyiVdKqmBqsLJrpE@postgres.railway.internal:5432/railway")
+    'default': dj_database_url.parse("postgresql://shopmanagement_1wjy_user:ueoZ0glEYZ8hVISbugyCsbFcVipuUyrd@dpg-cuq8q0a3esus738lkghg-a/shopmanagement_1wjy")
 }
-# ["default"]=dj_database_url.parse("postgresql://shopmanagement_django_render_user:uS7VBZBpAQ8662FMwjx6ZwPG7FGQVQnr@dpg-crk0dh88fa8c73fo0sug-a.oregon-postgres.render.com/shopmanagement_django_render")
 
 
 
