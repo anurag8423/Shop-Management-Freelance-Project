@@ -88,18 +88,18 @@ WSGI_APPLICATION = 'shopmanagement.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
-DATABASES = {
-        "default": dj_database_url.config(default=env('DATABASE_URL'), conn_max_age=600)
-     }
-
-if Environment == 'production':
-    # DATABASES['default']=dj_database_url.parse(env('DATABASE_URL'), conn_max_age=600)
-    DATABASES = {
-        "default": dj_database_url.config(default=env('DATABASE_URL'), conn_max_age=600)
-     }
 # DATABASES = {
-#     'default': dj_database_url.parse("postgresql://deploymentdatabase_user:558Gmg1I3Sm2EuV9aFwMpzIMUoY1Xs5N@dpg-cu2g3ad6l47c73c2h7a0-a.oregon-postgres.render.com/deploymentdatabase")
-# }
+#         "default": dj_database_url.config(default=env('DATABASE_URL'), conn_max_age=600)
+#      }
+
+# if Environment == 'production':
+#     # DATABASES['default']=dj_database_url.parse(env('DATABASE_URL'), conn_max_age=600)
+#     DATABASES = {
+#         "default": dj_database_url.config(default=env('DATABASE_URL'), conn_max_age=600)
+#      }
+DATABASES = {
+    'default': dj_database_url.parse("postgresql://postgres:gZqzRxljjAXTBjPcyyiVdKqmBqsLJrpE@turntable.proxy.rlwy.net:21040/railway")
+}
 # ["default"]=dj_database_url.parse("postgresql://shopmanagement_django_render_user:uS7VBZBpAQ8662FMwjx6ZwPG7FGQVQnr@dpg-crk0dh88fa8c73fo0sug-a.oregon-postgres.render.com/shopmanagement_django_render")
 
 
