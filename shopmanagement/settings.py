@@ -98,7 +98,7 @@ WSGI_APPLICATION = 'shopmanagement.wsgi.application'
 #         "default": dj_database_url.config(default=env('DATABASE_URL'), conn_max_age=600)
 #      }
 DATABASES = {
-    'default': dj_database_url.parse("postgresql://postgres:gZqzRxljjAXTBjPcyyiVdKqmBqsLJrpE@turntable.proxy.rlwy.net:21040/railway")
+    'default': dj_database_url.parse("postgresql://postgres:gZqzRxljjAXTBjPcyyiVdKqmBqsLJrpE@postgres.railway.internal:5432/railway")
 }
 # ["default"]=dj_database_url.parse("postgresql://shopmanagement_django_render_user:uS7VBZBpAQ8662FMwjx6ZwPG7FGQVQnr@dpg-crk0dh88fa8c73fo0sug-a.oregon-postgres.render.com/shopmanagement_django_render")
 
