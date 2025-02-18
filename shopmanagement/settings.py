@@ -93,7 +93,11 @@ DATABASES = {
 }
 
 if Environment == 'production':
-    DATABASES['default']=dj_database_url.parse(env('DATABASE_URL'), conn_max_age=600)
+    # DATABASES['default']=dj_database_url.parse(env('DATABASE_URL'), conn_max_age=600)
+    DATABASES = {
+        'ENGINE': 'django.db.backends.postgresql',
+        "default": dj_database_url.config(default=env("DATABASE_URL"), conn_max_age=600)
+     }
 # DATABASES = {
 #     'default': dj_database_url.parse("postgresql://deploymentdatabase_user:558Gmg1I3Sm2EuV9aFwMpzIMUoY1Xs5N@dpg-cu2g3ad6l47c73c2h7a0-a.oregon-postgres.render.com/deploymentdatabase")
 # }
