@@ -13,25 +13,28 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
-from environ import Env
-env=Env()
+import environ
+
+env = environ.Env()
+environ.Env.read_env(os.path.join(Path(__file__).resolve().parent.parent, ".env"))  # Load .env file
+
 BASE_DIR = Path(__file__).resolve().parent.parent
-Env.read_env()
+
+# Load Environment Variables
+Environment = env("ENVIRONMENT", default="development")
+SECRET_KEY = env("SECRET_KEY", default="your-default-secret-key")
+DEBUG = Environment != "production"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
-Environment=env('ENVIRONMENT')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env("SECRET_KEY", default="your-default-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if Environment == 'production':
-    DEBUG = False
-else:
-    DEBUG= True
 
 ALLOWED_HOSTS = ['localhost','1270.0.0.1','shop-management.up.railway.app']
 
@@ -95,8 +98,7 @@ DATABASES = {
 if Environment == 'production':
     # DATABASES['default']=dj_database_url.parse(env('DATABASE_URL'), conn_max_age=600)
     DATABASES = {
-        'ENGINE': 'django.db.backends.postgresql',
-        "default": dj_database_url.config(default=env("DATABASE_URL"), conn_max_age=600)
+        "default": dj_database_url.config(default=env('DATABASE_URL'), conn_max_age=600)
      }
 # DATABASES = {
 #     'default': dj_database_url.parse("postgresql://deploymentdatabase_user:558Gmg1I3Sm2EuV9aFwMpzIMUoY1Xs5N@dpg-cu2g3ad6l47c73c2h7a0-a.oregon-postgres.render.com/deploymentdatabase")
