@@ -98,8 +98,14 @@ WSGI_APPLICATION = 'shopmanagement.wsgi.application'
 #     DATABASES = {
 #         "default": dj_database_url.config(default=env('DATABASE_URL'), conn_max_age=600)
 #      }
+# DATABASES = {
+#     'default': dj_database_url.parse("postgresql://shopmanagement_1wjy_user:ueoZ0glEYZ8hVISbugyCsbFcVipuUyrd@dpg-cuq8q0a3esus738lkghg-a/shopmanagement_1wjy")
+# }
 DATABASES = {
-    'default': dj_database_url.parse("postgresql://shopmanagement_1wjy_user:ueoZ0glEYZ8hVISbugyCsbFcVipuUyrd@dpg-cuq8q0a3esus738lkghg-a/shopmanagement_1wjy")
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 
