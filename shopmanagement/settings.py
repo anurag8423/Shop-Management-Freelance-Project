@@ -13,23 +13,29 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from environ import Env
+env=Env()
+BASE_DIR = Path(__file__).resolve().parent.parent
+Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+Environment=env('ENVIRONMENT')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$h9z$-^vgwe6ela#ti7a4b7@3uyx!)c6@n5&-^a_&(5_*-qbym'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if Environment == 'production':
+    DEBUG = False
+else:
+    DEBUG= True
 
 ALLOWED_HOSTS = ["*"]
 
-
+CSRF_TRUSTED_ORIGINS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,6 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -77,15 +84,19 @@ WSGI_APPLICATION = 'shopmanagement.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+
 DATABASES = {
-    'default': dj_database_url.parse("postgresql://deploymentdatabase_user:558Gmg1I3Sm2EuV9aFwMpzIMUoY1Xs5N@dpg-cu2g3ad6l47c73c2h7a0-a.oregon-postgres.render.com/deploymentdatabase")
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+if Environment == 'production':
+    DATABASES['default']=dj_database_url.parse(env('DATABASE_URL'))
+# DATABASES = {
+#     'default': dj_database_url.parse("postgresql://deploymentdatabase_user:558Gmg1I3Sm2EuV9aFwMpzIMUoY1Xs5N@dpg-cu2g3ad6l47c73c2h7a0-a.oregon-postgres.render.com/deploymentdatabase")
+# }
 # ["default"]=dj_database_url.parse("postgresql://shopmanagement_django_render_user:uS7VBZBpAQ8662FMwjx6ZwPG7FGQVQnr@dpg-crk0dh88fa8c73fo0sug-a.oregon-postgres.render.com/shopmanagement_django_render")
 
 
@@ -125,7 +136,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT=BASE_DIR/"staticfiles"
 STATICFILES_DIRS=[os.path.join(BASE_DIR,'static')]
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
