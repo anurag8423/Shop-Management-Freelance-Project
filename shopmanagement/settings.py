@@ -29,11 +29,11 @@ SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if Environment == 'production':
-    DEBUG = False
+    DEBUG = True
 else:
     DEBUG= True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['localhost','1270.0.0.1','shop-management.up.railway.app']
 
 CSRF_TRUSTED_ORIGINS = ["https://shop-management.up.railway.app/"]
 # Application definition
@@ -93,7 +93,7 @@ DATABASES = {
 }
 
 if Environment == 'production':
-    DATABASES['default']=dj_database_url.parse(env('DATABASE_URL'))
+    DATABASES['default']=dj_database_url.parse(env('DATABASE_URL'), conn_max_age=600)
 # DATABASES = {
 #     'default': dj_database_url.parse("postgresql://deploymentdatabase_user:558Gmg1I3Sm2EuV9aFwMpzIMUoY1Xs5N@dpg-cu2g3ad6l47c73c2h7a0-a.oregon-postgres.render.com/deploymentdatabase")
 # }
